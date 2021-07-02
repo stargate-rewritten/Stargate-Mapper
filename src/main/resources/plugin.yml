@@ -1,0 +1,8 @@
+name: StargateDynmap
+version: ${project.version}
+main: com.bilicraft.stargatedynmap.StargateDynmap
+api-version: 1.17
+description: Stargate与Dynmap集成
+depend:
+  - dynmap
+  - Stargate
