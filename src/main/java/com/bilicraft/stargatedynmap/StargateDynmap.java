@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.GenericMarker;
@@ -19,7 +20,10 @@ import org.dynmap.markers.MarkerSet;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public final class StargateDynmap extends JavaPlugin {
+/**
+ * Feel free to change the package name and project license.
+ */
+public final class StargateDynmap extends JavaPlugin implements Listener {
     DynmapAPI dynmapAPI;
     Stargate stargate;
     MarkerSet markerSet;
@@ -28,6 +32,7 @@ public final class StargateDynmap extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        Bukkit.getPluginManager().registerEvents(this,this);
         dynmapAPI = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
         stargate = (Stargate) Bukkit.getPluginManager().getPlugin("Stargate");
         markerSet = dynmapAPI.getMarkerAPI().createMarkerSet("stargate","Stargate",null,false);
@@ -91,13 +96,13 @@ public final class StargateDynmap extends JavaPlugin {
             Location location = portal.getEntrances()[0].getLocation();
             String destinationName = portal.getDestinationName();
             if(StringUtils.isEmpty(destinationName)){
-                destinationName = "<非定向星门>";
+                destinationName = "<Non-directional Stargate>";
             }
             Marker marker = markerSet.createMarker(null,portal.getName(),portal.getWorld().getName(),location.getX(),location.getY(),location.getZ(), portalIcon,false);
-            String desc = "名称: " + portal.getName() + "<br />" +
-                    "网络: " + portal.getNetwork() + "<br />" +
-                    "目的地: " + destinationName + "<br />" +
-                    "所有者: " + portal.getOwnerName() + "<br />";
+            String desc = "Name: " + portal.getName() + "<br />" +
+                    "Network: " + portal.getNetwork() + "<br />" +
+                    "Destination: " + destinationName + "<br />" +
+                    "Owner: " + portal.getOwnerName() + "<br />";
             marker.setDescription(desc);
             marker.setLabel(portal.getName(),true);
             marker.setMarkerIcon(portalIcon);
