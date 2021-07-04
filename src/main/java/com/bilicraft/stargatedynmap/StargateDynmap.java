@@ -95,6 +95,7 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
 
             Location location = portal.getEntrances()[0].getLocation();
             String destinationName = portal.getDestinationName();
+            // TODO: I18N
             if(StringUtils.isEmpty(destinationName)){
                 destinationName = "<Non-directional Stargate>";
             }
