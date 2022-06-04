@@ -9,6 +9,7 @@ import net.TheDgtl.Stargate.network.portal.RealPortal;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -53,7 +54,7 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         }
         markerSet = dynmapAPI.getMarkerAPI().createMarkerSet("stargate", "Stargate", null, false);
         portalIcon = dynmapAPI.getMarkerAPI().getMarkerIcon("portal");
-        updatePortals();
+        addAllPortalMarkers();
     }
 
     @Override
@@ -64,19 +65,33 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void portalEvent(StargateCreateEvent event) {
-        if (!event.getDeny()) {
-            updatePortals();
+        if (event.getDeny()) {
+            return;
+        }
+        Portal portal = event.getPortal();
+        if (portal instanceof RealPortal) {
+            addPortalMarker((RealPortal) portal);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void portalEvent(StargateDestroyEvent event) {
-        if (!event.getDeny()) {
-            updatePortals();
+        if (event.getDeny()) {
+            return;
+        }
+        Portal destroyedPortal = event.getPortal();
+        if (destroyedPortal instanceof RealPortal) {
+            Marker marker = markerSet.findMarker(getPortalMarkerId(destroyedPortal));
+            marker.deleteMarker();
         }
     }
 
-    public List<Portal> getAllPortals() {
+    /**
+     * Gets all portals registered to Stargate
+     *
+     * @return <p>All portals registered to Stargate</p>
+     */
+    private List<Portal> getAllPortals() {
         List<Portal> portals = new ArrayList<>();
         Map<String, Network> networks = stargateAPI.getRegistry().getNetworkMap();
         for (Network network : networks.values()) {
@@ -85,38 +100,64 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         return portals;
     }
 
-    public void updatePortals() {
+    /**
+     * Adds portal markers for all registered portals
+     */
+    private void addAllPortalMarkers() {
         List<Portal> portals = getAllPortals();
         // Delete all markers
         markerSet.getMarkers().forEach(GenericMarker::deleteMarker);
         portals.forEach(portal -> {
-            try {
-                Field hiddenField = portal.getClass().getDeclaredField("hidden");
-                boolean hidden = (boolean) hiddenField.get(portal);
-                if (hidden) {
-                    return;
-                }
-            } catch (NoSuchFieldException | IllegalAccessException ignored) {
+            if (portal instanceof RealPortal) {
+                addPortalMarker((RealPortal) portal);
             }
-            Location location;
-            if (!(portal instanceof RealPortal)) {
+        });
+    }
+
+    /**
+     * Adds a marker for the given portal
+     *
+     * @param portal <p>The portal to add a marker for</p>
+     */
+    private void addPortalMarker(RealPortal portal) {
+        try {
+            Field hiddenField = portal.getClass().getDeclaredField("hidden");
+            boolean hidden = (boolean) hiddenField.get(portal);
+            if (hidden) {
                 return;
             }
-            location = ((RealPortal) portal).getExit();
-            String destinationName = portal.getDestinationName();
-            // TODO: I18N
-            if (StringUtils.isEmpty(destinationName)) {
-                destinationName = "<Non-directional Stargate>";
-            }
-            Marker marker = markerSet.createMarker(null, portal.getName(), ((RealPortal) portal).getExit().getWorld().getName(), location.getX(), location.getY(), location.getZ(), portalIcon, false);
-            String desc = "Name: " + portal.getName() + "<br />" +
-                    "Network: " + portal.getNetwork() + "<br />" +
-                    "Destination: " + destinationName + "<br />" +
-                    "Owner: " + Bukkit.getOfflinePlayer(portal.getOwnerUUID()).getName() + "<br />";
-            marker.setDescription(desc);
-            marker.setLabel(portal.getName(), true);
-            marker.setMarkerIcon(portalIcon);
-        });
+        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+        }
+        Location location;
+        location = portal.getExit();
+        String destinationName = portal.getDestinationName();
+        // TODO: I18N
+        if (StringUtils.isEmpty(destinationName)) {
+            destinationName = "<Non-directional Stargate>";
+        }
+        World world = portal.getExit().getWorld();
+        if (world == null) {
+            return;
+        }
+        Marker marker = markerSet.createMarker(getPortalMarkerId(portal),
+                portal.getName(), world.getName(), location.getX(), location.getY(), location.getZ(), portalIcon, false);
+        String desc = "Name: " + portal.getName() + "<br />" +
+                "Network: " + portal.getNetwork().getName() + "<br />" +
+                "Destination: " + destinationName + "<br />" +
+                "Owner: " + Bukkit.getOfflinePlayer(portal.getOwnerUUID()).getName() + "<br />";
+        marker.setDescription(desc);
+        marker.setLabel(portal.getName(), true);
+        marker.setMarkerIcon(portalIcon);
+    }
+
+    /**
+     * Gets the marker id to use for the given portal
+     *
+     * @param portal <p>The portal to get a marker id for</p>
+     * @return <p>The marker id to use</p>
+     */
+    private String getPortalMarkerId(Portal portal) {
+        return portal.getNetwork().getName() + ":" + portal.getName();
     }
 
 }
