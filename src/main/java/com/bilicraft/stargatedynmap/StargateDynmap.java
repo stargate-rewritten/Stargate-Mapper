@@ -5,6 +5,7 @@ import net.TheDgtl.Stargate.event.StargateCreateEvent;
 import net.TheDgtl.Stargate.event.StargateDestroyEvent;
 import net.TheDgtl.Stargate.network.Network;
 import net.TheDgtl.Stargate.network.portal.Portal;
+import net.TheDgtl.Stargate.network.portal.PortalFlag;
 import net.TheDgtl.Stargate.network.portal.RealPortal;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,7 +23,6 @@ import org.dynmap.markers.Marker;
 import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +82,9 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         Portal destroyedPortal = event.getPortal();
         if (destroyedPortal instanceof RealPortal) {
             Marker marker = markerSet.findMarker(getPortalMarkerId(destroyedPortal));
-            marker.deleteMarker();
+            if (marker != null) {
+                marker.deleteMarker();
+            }
         }
     }
 
@@ -120,14 +122,10 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
      * @param portal <p>The portal to add a marker for</p>
      */
     private void addPortalMarker(RealPortal portal) {
-        try {
-            Field hiddenField = portal.getClass().getDeclaredField("hidden");
-            boolean hidden = (boolean) hiddenField.get(portal);
-            if (hidden) {
-                return;
-            }
-        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+        if (portal.hasFlag(PortalFlag.HIDDEN)) {
+            return;
         }
+
         Location location;
         location = portal.getExit();
         String destinationName = portal.getDestinationName();
