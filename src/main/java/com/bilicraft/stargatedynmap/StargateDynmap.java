@@ -145,10 +145,10 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         }
         Marker marker = markerSet.createMarker(getPortalMarkerId(portal),
                 portal.getName(), world.getName(), location.getX(), location.getY(), location.getZ(), portalIcon, false);
-        String desc = "Name: " + portal.getName() + "<br />" +
-                "Network: " + portal.getNetwork().getName() + "<br />" +
-                "Destination: " + destinationName + "<br />" +
-                "Owner: " + owner + "<br />";
+        String desc = "<b>Name:</b> " + portal.getName() + "<br />" +
+                "<b>Network:</b> " + portal.getNetwork().getName() + "<br />" +
+                "<b>Destination:</b> " + destinationName + "<br />" +
+                "<b>Owner:</b> " + owner + "<br />";
         marker.setDescription(desc);
         marker.setLabel(portal.getName(), true);
         marker.setMarkerIcon(portalIcon);
