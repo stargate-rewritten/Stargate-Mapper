@@ -131,6 +131,10 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         Location location;
         location = portal.getExit();
         String destinationName = portal.getDestinationName();
+        String owner = Bukkit.getOfflinePlayer(portal.getOwnerUUID()).getName();
+        if (owner == null) {
+            owner = portal.getOwnerUUID().toString();
+        }
         // TODO: I18N
         if (StringUtils.isEmpty(destinationName)) {
             destinationName = "<Non-directional Stargate>";
@@ -144,7 +148,7 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         String desc = "Name: " + portal.getName() + "<br />" +
                 "Network: " + portal.getNetwork().getName() + "<br />" +
                 "Destination: " + destinationName + "<br />" +
-                "Owner: " + Bukkit.getOfflinePlayer(portal.getOwnerUUID()).getName() + "<br />";
+                "Owner: " + owner + "<br />";
         marker.setDescription(desc);
         marker.setLabel(portal.getName(), true);
         marker.setMarkerIcon(portalIcon);
