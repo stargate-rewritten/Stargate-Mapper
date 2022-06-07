@@ -26,6 +26,7 @@ import org.dynmap.markers.MarkerSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Feel free to change the package name and project license.
@@ -126,8 +127,7 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
             return;
         }
 
-        Location location;
-        location = portal.getExit();
+        Location location = portal.getExit();
         String destinationName = portal.getDestinationName();
         String owner = Bukkit.getOfflinePlayer(portal.getOwnerUUID()).getName();
         if (owner == null) {
@@ -143,11 +143,17 @@ public final class StargateDynmap extends JavaPlugin implements Listener {
         }
         Marker marker = markerSet.createMarker(getPortalMarkerId(portal),
                 portal.getName(), world.getName(), location.getX(), location.getY(), location.getZ(), portalIcon, false);
-        String desc = "<b>Name:</b> " + portal.getName() + "<br />" +
+        if (marker == null) {
+            getLogger().log(Level.WARNING, "Unable to create marker for portal " + portal.getName() + " at " + 
+                    location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockX() + " on network " + 
+                    portal.getNetwork().getName() + " with destination " + destinationName);
+            return;
+        }
+        String markerDescription = "<b>Name:</b> " + portal.getName() + "<br />" +
                 "<b>Network:</b> " + portal.getNetwork().getName() + "<br />" +
                 "<b>Destination:</b> " + destinationName + "<br />" +
                 "<b>Owner:</b> " + owner + "<br />";
-        marker.setDescription(desc);
+        marker.setDescription(markerDescription);
         marker.setLabel(portal.getName(), true);
         marker.setMarkerIcon(portalIcon);
     }
