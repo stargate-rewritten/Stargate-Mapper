@@ -82,9 +82,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.TheDgtl</groupId>
-            <artifactId>Stargate</artifactId>
-            <version>1.0.0.4-ALPHA</version>
+            <groupId>org.sgrewritten</groupId>
+            <artifactId>stargate</artifactId>
+            <version>1.0.0.14-ALPHA</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

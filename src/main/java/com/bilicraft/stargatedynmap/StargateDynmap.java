@@ -1,12 +1,12 @@
 package com.bilicraft.stargatedynmap;
 
-import net.TheDgtl.Stargate.api.StargateAPI;
-import net.TheDgtl.Stargate.event.StargateCreateEvent;
-import net.TheDgtl.Stargate.event.StargateDestroyEvent;
-import net.TheDgtl.Stargate.network.Network;
-import net.TheDgtl.Stargate.network.portal.Portal;
-import net.TheDgtl.Stargate.network.portal.PortalFlag;
-import net.TheDgtl.Stargate.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.StargateAPI;
+import org.sgrewritten.stargate.api.event.StargateCreateEvent;
+import org.sgrewritten.stargate.api.event.StargateDestroyEvent;
+import org.sgrewritten.stargate.api.network.Network;
+import org.sgrewritten.stargate.api.network.portal.Portal;
+import org.sgrewritten.stargate.api.network.portal.PortalFlag;
+import org.sgrewritten.stargate.api.network.portal.RealPortal;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
