@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bilicraft</groupId>
-    <artifactId>StargateDynmap</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <groupId>com.ghostchu</groupId>
+    <artifactId>stargatemapper</artifactId>
+    <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>StargateDynmap</name>
+    <name>StargateMapper</name>
 
-    <description>Stargate与Dynmap集成</description>
+    <description>Stargate Mapper, an integration between stargate and mapping plugins</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -66,6 +66,10 @@
             <id>codemc-releases</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>modrinth-repo</id>
+            <url>https://api.modrinth.com/maven/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -85,6 +89,18 @@
             <groupId>org.sgrewritten</groupId>
             <artifactId>stargate</artifactId>
             <version>1.0.0.14-ALPHA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>xyz.jpenilla</groupId>
+            <artifactId>squaremap-api</artifactId>
+            <version>1.2.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>maven.modrinth</groupId>
+            <artifactId>pl3xmap</artifactId>
+            <version>1.20.2-473</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

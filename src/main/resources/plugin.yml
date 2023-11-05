@@ -1,8 +1,11 @@
 name: SG-Dynmap
 version: ${project.version}
-main: com.bilicraft.stargatedynmap.StargateDynmap
+main: com.ghostchu.stargatemapper.StargateDynmap
 api-version: 1.13
 description: StargameDynmap plugin
 depend:
-  - dynmap
   - Stargate
+softdepend:
+  - dynmap
+  - pl3xmap
+  - squaremap
