@@ -1,8 +1,8 @@
-package com.ghostchu.stargatedynmap.hook;
+package com.ghostchu.stargatemapper.hook;
 
-import com.ghostchu.stargatedynmap.DescriptionBuilder;
-import com.ghostchu.stargatedynmap.Icon;
-import com.ghostchu.stargatedynmap.Id;
+import com.ghostchu.stargatemapper.DescriptionBuilder;
+import com.ghostchu.stargatemapper.Icon;
+import com.ghostchu.stargatemapper.Id;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.EventHandler;
 import net.pl3x.map.core.event.EventListener;
@@ -11,13 +11,11 @@ import net.pl3x.map.core.event.world.WorldLoadedEvent;
 import net.pl3x.map.core.event.world.WorldUnloadedEvent;
 import net.pl3x.map.core.image.IconImage;
 import net.pl3x.map.core.markers.Point;
-import net.pl3x.map.core.markers.layer.Layer;
 import net.pl3x.map.core.markers.layer.SimpleLayer;
 import net.pl3x.map.core.markers.option.Options;
 import net.pl3x.map.core.markers.option.Popup;
 import net.pl3x.map.core.markers.option.Tooltip;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

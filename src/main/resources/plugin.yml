@@ -1,6 +1,6 @@
 name: SG-Dynmap
 version: ${project.version}
-main: com.ghostchu.stargatemapper.StargateDynmap
+main: com.ghostchu.stargatemapper.StargateMapper
 api-version: 1.13
 description: StargameDynmap plugin
 depend:

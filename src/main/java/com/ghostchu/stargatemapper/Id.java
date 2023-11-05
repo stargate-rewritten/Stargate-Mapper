@@ -1,4 +1,4 @@
-package com.ghostchu.stargatedynmap;
+package com.ghostchu.stargatemapper;
 
 import org.sgrewritten.stargate.api.network.portal.Portal;
 

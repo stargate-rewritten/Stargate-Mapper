@@ -1,6 +1,6 @@
-package com.ghostchu.stargatedynmap.listener;
+package com.ghostchu.stargatemapper.listener;
 
-import com.ghostchu.stargatedynmap.hook.MapperHook;
+import com.ghostchu.stargatemapper.hook.MapperHook;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -33,7 +33,7 @@ public class StargateListener implements Listener {
             }
         }
     }
-    
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onStargateCreatePortal(StargateCreatePortalEvent event) {
         if (event.getDeny()) {

@@ -1,9 +1,8 @@
-package com.ghostchu.stargatedynmap.hook;
+package com.ghostchu.stargatemapper.hook;
 
-import com.ghostchu.stargatedynmap.DescriptionBuilder;
-import com.ghostchu.stargatedynmap.Icon;
-import com.ghostchu.stargatedynmap.Id;
-import org.bukkit.Bukkit;
+import com.ghostchu.stargatemapper.DescriptionBuilder;
+import com.ghostchu.stargatemapper.Icon;
+import com.ghostchu.stargatemapper.Id;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.sgrewritten.stargate.api.network.portal.Portal;

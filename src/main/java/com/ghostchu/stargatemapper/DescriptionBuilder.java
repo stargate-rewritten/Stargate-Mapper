@@ -1,4 +1,4 @@
-package com.ghostchu.stargatedynmap;
+package com.ghostchu.stargatemapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;

@@ -1,9 +1,9 @@
-package com.ghostchu.stargatedynmap;
+package com.ghostchu.stargatemapper;
 
-import com.ghostchu.stargatedynmap.hook.DynmapHook;
-import com.ghostchu.stargatedynmap.hook.MapperHook;
-import com.ghostchu.stargatedynmap.hook.Pl3xmapHook;
-import com.ghostchu.stargatedynmap.hook.SquaremapHook;
+import com.ghostchu.stargatemapper.hook.DynmapHook;
+import com.ghostchu.stargatemapper.hook.MapperHook;
+import com.ghostchu.stargatemapper.hook.Pl3xmapHook;
+import com.ghostchu.stargatemapper.hook.SquaremapHook;
 import org.bukkit.plugin.PluginManager;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.network.Network;
@@ -18,7 +18,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
