@@ -13,15 +13,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.sgrewritten.stargate.network.StorageType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Feel free to change the package name and project license.
@@ -96,8 +99,11 @@ public final class StargateMapper extends JavaPlugin implements Listener {
      */
     private List<Portal> getAllPortals() {
         List<Portal> portals = new ArrayList<>();
-        Map<String, Network> networks = stargateAPI.getRegistry().getNetworkMap();
-        for (Network network : networks.values()) {
+        Stream<Network> localNetworkStream = stargateAPI.getRegistry().getNetworkRegistry(StorageType.LOCAL).stream();
+        Stream<Network> interserverNetworkStream = stargateAPI.getRegistry().getNetworkRegistry(StorageType.INTER_SERVER).stream();
+        Iterator<Network> allNetworks = Stream.concat(localNetworkStream,interserverNetworkStream).iterator();
+        while(allNetworks.hasNext()){
+            Network network = allNetworks.next();
             portals.addAll(network.getAllPortals());
         }
         return portals;
