@@ -1,8 +1,8 @@
-name: SG-Dynmap
+name: StargateMapper
 version: ${project.version}
 main: com.ghostchu.stargatemapper.StargateMapper
 api-version: 1.13
-description: StargameDynmap plugin
+description: An integration addon for Stargate Rewitten that adds support for mapping plugins
 depend:
   - Stargate
 softdepend:
