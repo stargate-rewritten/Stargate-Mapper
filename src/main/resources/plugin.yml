@@ -1,6 +1,6 @@
 name: StargateMapper
 version: ${project.version}
-main: com.ghostchu.stargatemapper.StargateMapper
+main: org.sgrewritten.stargatemapper.StargateMapper
 api-version: 1.13
 description: An integration addon for Stargate Rewitten that adds support for mapping plugins
 depend:

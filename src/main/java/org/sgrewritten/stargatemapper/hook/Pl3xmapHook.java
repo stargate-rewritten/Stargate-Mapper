@@ -1,8 +1,8 @@
-package com.ghostchu.stargatemapper.hook;
+package org.sgrewritten.stargatemapper.hook;
 
-import com.ghostchu.stargatemapper.DescriptionBuilder;
-import com.ghostchu.stargatemapper.Icon;
-import com.ghostchu.stargatemapper.Id;
+import org.sgrewritten.stargatemapper.DescriptionBuilder;
+import org.sgrewritten.stargatemapper.Icon;
+import org.sgrewritten.stargatemapper.Id;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.EventHandler;
 import net.pl3x.map.core.event.EventListener;

@@ -1,4 +1,4 @@
-package com.ghostchu.stargatemapper;
+package org.sgrewritten.stargatemapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;

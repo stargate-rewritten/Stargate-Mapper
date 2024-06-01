@@ -1,4 +1,4 @@
-package com.ghostchu.stargatemapper;
+package org.sgrewritten.stargatemapper;
 
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 

@@ -1,9 +1,9 @@
-package com.ghostchu.stargatemapper;
+package org.sgrewritten.stargatemapper;
 
-import com.ghostchu.stargatemapper.hook.DynmapHook;
-import com.ghostchu.stargatemapper.hook.MapperHook;
-import com.ghostchu.stargatemapper.hook.Pl3xmapHook;
-import com.ghostchu.stargatemapper.hook.SquaremapHook;
+import org.sgrewritten.stargatemapper.hook.DynmapHook;
+import org.sgrewritten.stargatemapper.hook.MapperHook;
+import org.sgrewritten.stargatemapper.hook.Pl3xmapHook;
+import org.sgrewritten.stargatemapper.hook.SquaremapHook;
 import org.bukkit.plugin.PluginManager;
 import org.sgrewritten.stargate.api.StargateAPI;
 import org.sgrewritten.stargate.api.network.Network;
@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 

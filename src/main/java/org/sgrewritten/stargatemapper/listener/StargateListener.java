@@ -1,6 +1,6 @@
-package com.ghostchu.stargatemapper.listener;
+package org.sgrewritten.stargatemapper.listener;
 
-import com.ghostchu.stargatemapper.hook.MapperHook;
+import org.sgrewritten.stargatemapper.hook.MapperHook;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
