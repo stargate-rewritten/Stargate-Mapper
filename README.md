@@ -1,16 +1,7 @@
-__**Important Links**__
-- [Stargate Discord](https://discord.gg/mTaHuK6BVa).
-- [Dynmap Reddit](https://www.reddit.com/r/Dynmap).
-- [Support Dynmap](https://www.paypal.com/donate/?token=whToOK0MKcoqwqEoe030VT3jhuJMyHxwLkY9c1N3ggohrQ0tFFcW1Mov9DS0exQote3DD0&country.x=US&locale.x=US).
-
-# Description
-StargateCommand is an addon for Stargate that integrates portals into the Dynmap plugin. 
-
-#### Features:
-Not yet available.
+StargateMapper is an addon for [Stargate Rewitten](https://sgrewitten.org) that displays stargate portals (and information about them) within [pl3xmaps](https://github.com/granny/Pl3xMap), [squaremaps](https://github.com/jpenilla/squaremap), and [dynmaps](https://github.com/webbukkit/dynmap).
 
 ## Dependencies
-[The most recent version of Stargate](https://www.spigotmc.org/resources/stargate.87978/)
+[The most recent version of Stargate](https:/sgrewitten.org/download)
 
 # Permissions
 Not yet available.
@@ -32,7 +23,23 @@ Not yet available.
 
 
 # Changes
-[Version 1.0.0]
+#### [Version 1.1.0]
+
+- Packaged for alpha release.
+
+#### [Version 1.0.2]
+
+- Added support for Pl3xmap and Squaremap
+
+#### [Version 1.0.1]
+
+- Updated to the new Stargate Rewitten API
+- Project now requires Stargate 1.0.0.14+
+
+#### [Version 1.0.0]
+
  - Initial functionality (Courtesy of Bilicraft)
-[Version 0.0.0]
+
+#### [Version 0.0.0]
+
  - Created repository

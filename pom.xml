@@ -6,10 +6,24 @@
 
     <groupId>com.ghostchu</groupId>
     <artifactId>stargatemapper</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <name>Stargate Mapper</name>
+    <version>1.1.0-BETA</version>
+    <url>https://sgrewitten.org/addons</url>
     <packaging>jar</packaging>
-
-    <name>StargateMapper</name>
+    <organization>
+        <name>Bilicraft</name>
+        <url>bilicraft.com</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>GhostChu</id>
+            <url>ghostchu.com</url>
+        </developer>
+        <developer>
+            <id>Thorinwasher</id>
+            <url>thorinwasher.dev</url>
+        </developer>
+    </developers>
 
     <description>Stargate Mapper, an integration between stargate and mapping plugins</description>
     <properties>
