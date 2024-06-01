@@ -11,8 +11,8 @@
     <url>https://sgrewitten.org/addons</url>
     <packaging>jar</packaging>
     <organization>
-        <name>Bilicraft</name>
-        <url>bilicraft.com</url>
+        <name>Stargate rewritten</name>
+        <url>sgrewritten.org</url>
     </organization>
     <developers>
         <developer>
