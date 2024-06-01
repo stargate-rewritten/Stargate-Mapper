@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.sgrewritten</groupId>
             <artifactId>stargate</artifactId>
-            <version>1.0.0.14-ALPHA</version>
+            <version>1.0.0.16-NIGHTLY-2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

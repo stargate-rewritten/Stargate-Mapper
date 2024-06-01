@@ -12,8 +12,8 @@ import org.dynmap.markers.Marker;
 import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
 import org.sgrewritten.stargate.api.network.portal.Portal;
-import org.sgrewritten.stargate.api.network.portal.PortalFlag;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,9 +31,9 @@ public class DynmapHook implements MapperHook {
     MarkerSet markerSet;
     DynmapAPI dynmapAPI;
 
-    public DynmapHook(PluginManager pluginManager, Logger logger){
+    public DynmapHook(PluginManager pluginManager, Logger logger) {
         dynmapAPI = (DynmapAPI) pluginManager.getPlugin("dynmap");
-        if(dynmapAPI == null){
+        if (dynmapAPI == null) {
             throw new IllegalStateException("Could not find the dynmap api.");
         }
         markerSet = dynmapAPI.getMarkerAPI().createMarkerSet("stargate", "Stargate", null, false);
@@ -57,7 +57,7 @@ public class DynmapHook implements MapperHook {
         if (marker == null) {
             logger.log(Level.WARNING, "Unable to create marker for portal " + portal.getName() + " at " +
                     location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockX() + " on network " +
-                    portal.getNetwork().getName() + " with destination " + portal.getDestination());
+                    portal.getNetwork().getName() + " with destination " + portal.getBehavior().getDestination());
             return;
         }
         String markerDescription = DescriptionBuilder.createDescription(portal);
@@ -92,9 +92,9 @@ public class DynmapHook implements MapperHook {
 
     @Override
     public void registerIcon(BufferedImage image, String key, String type, String title) {
-        try(ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             ImageIO.write(image, type, outputStream);
-            try(InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray())){
+            try (InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray())) {
                 dynmapAPI.getMarkerAPI().createMarkerIcon(key, title, inputStream);
             }
         } catch (IOException e) {

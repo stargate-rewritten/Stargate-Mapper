@@ -8,7 +8,7 @@ public class DescriptionBuilder {
 
     public static String createDescription(RealPortal portal){
 
-        String destinationName = portal.getDestinationName();
+        String destinationName = portal.getBehavior().getDestinationName();
         if (StringUtils.isEmpty(destinationName)) {
             destinationName = "<Non-directional Stargate>";
         }

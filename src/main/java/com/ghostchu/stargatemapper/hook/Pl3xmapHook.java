@@ -22,7 +22,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.sgrewritten.stargate.api.gate.GateAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
-import org.sgrewritten.stargate.api.network.portal.PortalFlag;
+import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 
 import java.awt.image.BufferedImage;
@@ -51,7 +51,7 @@ public class Pl3xmapHook implements MapperHook, EventListener {
         }
 
         Location location = portal.getExit();
-        String destinationName = portal.getDestinationName();
+        String destinationName = portal.getBehavior().getDestinationName();
         String owner = Bukkit.getOfflinePlayer(portal.getOwnerUUID()).getName();
         if (owner == null) {
             owner = portal.getOwnerUUID().toString();

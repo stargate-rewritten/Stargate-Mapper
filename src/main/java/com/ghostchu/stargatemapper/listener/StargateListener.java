@@ -18,16 +18,14 @@ public class StargateListener implements Listener {
 
     private final Collection<MapperHook> mapperHooks;
 
-    public StargateListener(Collection<MapperHook> mapperHooks){
+    public StargateListener(Collection<MapperHook> mapperHooks) {
         this.mapperHooks = mapperHooks;
     }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    void onStargateDestroyPortal(StargateDestroyPortalEvent event){
-        if (event.getDeny()) {
-            return;
-        }
+    void onStargateDestroyPortal(StargateDestroyPortalEvent event) {
         Portal destroyedPortal = event.getPortal();
-        for(MapperHook mapperHook : this.mapperHooks) {
+        for (MapperHook mapperHook : this.mapperHooks) {
             if (destroyedPortal instanceof RealPortal) {
                 mapperHook.removePortalMarker((RealPortal) destroyedPortal);
             }
@@ -40,7 +38,7 @@ public class StargateListener implements Listener {
             return;
         }
         Portal portal = event.getPortal();
-        for(MapperHook mapperHook : this.mapperHooks) {
+        for (MapperHook mapperHook : this.mapperHooks) {
             if (portal instanceof RealPortal) {
                 mapperHook.addPortalMarker((RealPortal) portal);
             }
@@ -50,7 +48,7 @@ public class StargateListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onStargateOpenPortal(StargateOpenPortalEvent event) {
         Portal openedPortal = event.getPortal();
-        for(MapperHook mapperHook : this.mapperHooks) {
+        for (MapperHook mapperHook : this.mapperHooks) {
             if (openedPortal instanceof RealPortal) {
                 mapperHook.removePortalMarker((RealPortal) openedPortal);
                 mapperHook.addPortalMarker((RealPortal) openedPortal);
@@ -61,7 +59,7 @@ public class StargateListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onStargateClosePortal(StargateClosePortalEvent event) {
         Portal closedPortal = event.getPortal();
-        for(MapperHook mapperHook : this.mapperHooks) {
+        for (MapperHook mapperHook : this.mapperHooks) {
             if (closedPortal instanceof RealPortal) {
                 mapperHook.removePortalMarker((RealPortal) closedPortal);
                 mapperHook.addPortalMarker((RealPortal) closedPortal);
