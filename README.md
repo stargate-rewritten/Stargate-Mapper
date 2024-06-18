@@ -1,7 +1,7 @@
-StargateMapper is an addon for [Stargate Rewitten](https://sgrewitten.org) that displays stargate portals (and information about them) within [pl3xmaps](https://github.com/granny/Pl3xMap), [squaremaps](https://github.com/jpenilla/squaremap), and [dynmaps](https://github.com/webbukkit/dynmap).
+StargateMapper is an addon for [Stargate Rewritten](https://sgrewritten.org) that displays stargate portals (and information about them) within [pl3xmaps](https://github.com/granny/Pl3xMap), [squaremaps](https://github.com/jpenilla/squaremap), and [dynmaps](https://github.com/webbukkit/dynmap).
 
 ## Dependencies
-[The most recent version of Stargate](https:/sgrewitten.org/download)
+[The most recent version of Stargate](https:/sgrewritten.org/download)
 
 # Permissions
 Not yet available.

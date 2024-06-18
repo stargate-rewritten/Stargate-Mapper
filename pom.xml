@@ -8,7 +8,7 @@
     <artifactId>stargatemapper</artifactId>
     <name>Stargate Mapper</name>
     <version>1.1.0-BETA</version>
-    <url>https://sgrewitten.org/addons</url>
+    <url>https://sgrewritten.org/addons</url>
     <packaging>jar</packaging>
     <organization>
         <name>Stargate rewritten</name>
