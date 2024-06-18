@@ -33,7 +33,7 @@ Not yet available.
 
 #### [Version 1.0.1]
 
-- Updated to the new Stargate Rewitten API
+- Updated to the new Stargate Rewritten API
 - Project now requires Stargate 1.0.0.14+
 
 #### [Version 1.0.0]
