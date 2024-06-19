@@ -23,6 +23,12 @@ Not yet available.
 
 
 # Changes
+#### [Version 1.1.1]
+
+- Changed package name.
+- Updated to latest nightly version of the API.
+- Fixed some typos.
+
 #### [Version 1.1.0]
 
 - Packaged for alpha release.
