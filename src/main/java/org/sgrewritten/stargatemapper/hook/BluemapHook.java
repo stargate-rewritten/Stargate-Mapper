@@ -1,20 +1,21 @@
 package org.sgrewritten.stargatemapper.hook;
 
-import org.sgrewritten.stargate.api.network.portal.Portal;
-import org.sgrewritten.stargate.api.network.portal.RealPortal;
 import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.BlueMapWorld;
 import de.bluecolored.bluemap.api.markers.MarkerSet;
 import de.bluecolored.bluemap.api.markers.POIMarker;
-import java.awt.image.BufferedImage;
-import java.util.Collection;
-import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.sgrewritten.stargate.api.network.portal.Portal;
+import org.sgrewritten.stargate.api.network.portal.RealPortal;
 import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 import org.sgrewritten.stargatemapper.DescriptionBuilder;
 import org.sgrewritten.stargatemapper.Icon;
+
+import java.awt.image.BufferedImage;
+import java.util.Collection;
+import java.util.logging.Logger;
 
 public class BluemapHook implements MapperHook {
 
@@ -29,11 +30,11 @@ public class BluemapHook implements MapperHook {
         markerSet = MarkerSet.builder()
                 .label("Stargate")
                 .build();
-        
-        for (BlueMapWorld world : worlds){
-            for (BlueMapMap map : world.getMaps()){
+
+        for (BlueMapWorld world : worlds) {
+            for (BlueMapMap map : world.getMaps()) {
                 map.getMarkerSets().put("Stargate", markerSet);
-        }
+            }
         }
     }
 
@@ -52,10 +53,10 @@ public class BluemapHook implements MapperHook {
                 .label(portal.getName())
                 .position(location.getX(), location.getY(), location.getZ())
                 .build();
-        
+
         portalMarker.setIcon(Icon.fromPortal(portal).name(), 10, 10);
         portalMarker.setDetail(DescriptionBuilder.createDescription(portal));
-               
+
         markerSet.getMarkers().put(portal.getGlobalId().toString(), portalMarker);
     }
 
