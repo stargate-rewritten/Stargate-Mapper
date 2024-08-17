@@ -1,15 +1,12 @@
 package org.sgrewritten.stargatemapper.listener;
 
-import org.sgrewritten.stargatemapper.hook.MapperHook;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.sgrewritten.stargate.api.event.portal.StargateClosePortalEvent;
-import org.sgrewritten.stargate.api.event.portal.StargateCreatePortalEvent;
-import org.sgrewritten.stargate.api.event.portal.StargateDestroyPortalEvent;
-import org.sgrewritten.stargate.api.event.portal.StargateOpenPortalEvent;
+import org.sgrewritten.stargate.api.event.portal.*;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargatemapper.hook.MapperHook;
 
 import java.util.Collection;
 
@@ -64,6 +61,13 @@ public class StargateListener implements Listener {
                 mapperHook.removePortalMarker((RealPortal) closedPortal);
                 mapperHook.addPortalMarker((RealPortal) closedPortal);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onStargatePortalLoad(StargatePortalLoadEvent event) {
+        if (event.getPortal() instanceof RealPortal realPortal) {
+            this.mapperHooks.forEach(mapperHook -> mapperHook.addPortalMarker(realPortal));
         }
     }
 }

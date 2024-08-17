@@ -12,7 +12,12 @@ import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 import org.sgrewritten.stargatemapper.DescriptionBuilder;
 import org.sgrewritten.stargatemapper.Icon;
 
-import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +58,6 @@ public class BluemapHook implements MapperHook {
         if (portal.hasFlag(PortalFlag.HIDDEN)) {
             return;
         }
-        logger.warning("Ping 1");
         Location location = portal.getExit();
         World world = portal.getExit().getWorld();
         if (world == null) {
@@ -63,18 +67,17 @@ public class BluemapHook implements MapperHook {
                 .label(portal.getName())
                 .position(location.getX(), location.getY(), location.getZ())
                 .build();
-
-        portalMarker.setIcon(Icon.fromPortal(portal).name(), 10, 10);
+        portalMarker.setIcon("assets" + Icon.fromPortal(portal).getFileName(), 1, 1);
         portalMarker.setDetail(DescriptionBuilder.createDescription(portal));
-
+        
         markerSets.get(world.getName()).getMarkers().put(portal.getGlobalId().toString(), portalMarker);
     }
 
     @Override
     public void addPortalMarkers(Collection<Portal> portals) {
         portals.forEach(portal -> {
-            if (portal instanceof RealPortal) {
-                addPortalMarker((RealPortal) portal);
+            if (portal instanceof RealPortal realPortal) {
+                addPortalMarker(realPortal);
             }
         });
     }
@@ -90,8 +93,19 @@ public class BluemapHook implements MapperHook {
     }
 
     @Override
-    public void registerIcon(BufferedImage image, String key, String type, String title) {
-        // TODO: This?
+    public void registerIcon(InputStream image, Icon key, String type, String title) throws IOException {
+        BlueMapAPI.onEnable(blueMapAPI -> {
+            try {
+                Path path = blueMapAPI.getWebApp().getWebRoot().resolve("assets").resolve(key.getFileName().substring(1));
+                Files.createDirectories(path.getParent());
+                logger.warning(path.toString());
+                try (OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                    image.transferTo(outputStream);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }

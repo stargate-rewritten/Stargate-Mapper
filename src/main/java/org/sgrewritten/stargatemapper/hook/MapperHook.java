@@ -2,8 +2,10 @@ package org.sgrewritten.stargatemapper.hook;
 
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargatemapper.Icon;
 
-import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
 public interface MapperHook {
@@ -21,5 +23,5 @@ public interface MapperHook {
 
     void deleteMarkerSet();
 
-    void registerIcon(BufferedImage image, String key, String type, String title);
+    void registerIcon(InputStream image, Icon key, String type, String title) throws IOException;
 }

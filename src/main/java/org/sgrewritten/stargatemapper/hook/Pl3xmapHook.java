@@ -1,8 +1,5 @@
 package org.sgrewritten.stargatemapper.hook;
 
-import org.sgrewritten.stargatemapper.DescriptionBuilder;
-import org.sgrewritten.stargatemapper.Icon;
-import org.sgrewritten.stargatemapper.Id;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.EventHandler;
 import net.pl3x.map.core.event.EventListener;
@@ -22,10 +19,16 @@ import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.sgrewritten.stargate.api.gate.GateAPI;
 import org.sgrewritten.stargate.api.network.portal.Portal;
-import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
+import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
+import org.sgrewritten.stargatemapper.DescriptionBuilder;
+import org.sgrewritten.stargatemapper.Icon;
+import org.sgrewritten.stargatemapper.Id;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -34,13 +37,13 @@ public class Pl3xmapHook implements MapperHook, EventListener {
     private final Pl3xMap pl3xmapAPI;
     private final static String STARGATE_LAYER = "stargate";
 
-    public Pl3xmapHook(PluginManager pluginManager){
+    public Pl3xmapHook(PluginManager pluginManager) {
         this.pl3xmapAPI = Pl3xMap.api();
         this.pl3xmapAPI.getWorldRegistry().forEach(this::registerLayer);
         this.pl3xmapAPI.getEventRegistry().register(this);
     }
 
-    private void registerLayer(net.pl3x.map.core.world.World world){
+    private void registerLayer(net.pl3x.map.core.world.World world) {
         world.getLayerRegistry().register(new SimpleLayer(STARGATE_LAYER, () -> "Stargate portals"));
     }
 
@@ -65,8 +68,8 @@ public class Pl3xmapHook implements MapperHook, EventListener {
         }
         GateAPI gate = portal.getGate();
         String id = Id.getPortalMarkerId(portal);
-        Point point = new Point(gate.getTopLeft().getBlockX(),gate.getTopLeft().getBlockZ());
-        net.pl3x.map.core.markers.marker.Icon marker = new net.pl3x.map.core.markers.marker.Icon(id,point, Icon.fromPortal(portal).name());
+        Point point = new Point(gate.getTopLeft().getBlockX(), gate.getTopLeft().getBlockZ());
+        net.pl3x.map.core.markers.marker.Icon marker = new net.pl3x.map.core.markers.marker.Icon(id, point, Icon.fromPortal(portal).name());
         Options options = Options.builder().tooltip(new Tooltip(id)).popup(new Popup(DescriptionBuilder.createDescription(portal))).build();
         marker.setOptions(options);
         net.pl3x.map.core.world.World pl3xmapWorld = pl3xmapAPI.getWorldRegistry().get(Objects.requireNonNull(location.getWorld()).getName());
@@ -76,8 +79,8 @@ public class Pl3xmapHook implements MapperHook, EventListener {
 
     @Override
     public void addPortalMarkers(Collection<Portal> portals) {
-        for(Portal portal : portals){
-            if(portal instanceof RealPortal){
+        for (Portal portal : portals) {
+            if (portal instanceof RealPortal) {
                 addPortalMarker((RealPortal) portal);
             }
         }
@@ -98,8 +101,9 @@ public class Pl3xmapHook implements MapperHook, EventListener {
     }
 
     @Override
-    public void registerIcon(BufferedImage image, String key, String type, String title) {
-        this.pl3xmapAPI.getIconRegistry().register(new IconImage(key,image,type));
+    public void registerIcon(InputStream image, Icon key, String type, String title) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(Objects.requireNonNull(image));
+        this.pl3xmapAPI.getIconRegistry().register(new IconImage(key.name(), bufferedImage, type));
     }
 
     @EventHandler
