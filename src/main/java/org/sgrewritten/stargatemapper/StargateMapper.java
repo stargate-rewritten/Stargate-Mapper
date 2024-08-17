@@ -74,7 +74,7 @@ public final class StargateMapper extends JavaPlugin {
             mapperHooks.add(new SquaremapHook(pluginManager));
         }
         if (pluginManager.isPluginEnabled("BlueMap")) {
-            mapperHooks.add(new BluemapHook(this.getLogger()));
+            mapperHooks.add(new BluemapHook(this.getLogger(), this));
         }
         if (mapperHooks.isEmpty()) {
             throw new IllegalStateException("No supported map interface found, expected any of [dynmap, pl3xmap, squaremap, bluemap].");
@@ -95,7 +95,7 @@ public final class StargateMapper extends JavaPlugin {
      *
      * @return <p>All portals registered to Stargate</p>
      */
-    private List<Portal> getAllPortals() {
+    public List<Portal> getAllPortals() {
         List<Portal> portals = new ArrayList<>();
         Stream<Network> localNetworkStream = stargateAPI.getRegistry().getNetworkRegistry(StorageType.LOCAL).stream();
         Stream<Network> interserverNetworkStream = stargateAPI.getRegistry().getNetworkRegistry(StorageType.INTER_SERVER).stream();
