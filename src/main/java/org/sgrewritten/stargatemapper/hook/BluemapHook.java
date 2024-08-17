@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 public class BluemapHook implements MapperHook {
 
@@ -75,7 +74,7 @@ public class BluemapHook implements MapperHook {
                     .filter(portal -> portal instanceof RealPortal)
                     .map(portal -> (RealPortal) portal)
                     .map(portal -> new QueuedPortal(portal, true))
-                    .forEach(portalQueue::add);
+                    .forEach(portalQueue::offer);
             markerSets.values().stream()
                     .map(MarkerSet::getMarkers)
                     .forEach(Map::clear);
