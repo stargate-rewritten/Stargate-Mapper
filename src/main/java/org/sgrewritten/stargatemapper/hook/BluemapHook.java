@@ -32,7 +32,6 @@ public class BluemapHook implements MapperHook {
 
     private final Logger logger;
     private final Map<BlueMapWorld, MarkerSet> markerSets = new HashMap<>();
-    private static final Pattern WORLD_RE = Pattern.compile("^(.*)#");
     private POIMarker portalMarker;
     private final ConcurrentLinkedQueue<QueuedPortal> portalQueue = new ConcurrentLinkedQueue<>();
 
@@ -104,8 +103,7 @@ public class BluemapHook implements MapperHook {
                 .label(portal.getName())
                 .position(location.getX(), location.getY(), location.getZ())
                 .build();
-        logger.warning(Icon.fromPortal(portal).getFileName());
-        portalMarker.setIcon("assets" + Icon.fromPortal(portal).getFileName(), 1, 1);
+        portalMarker.setIcon("assets" + Icon.fromPortal(portal).getFileName(), 0, 0);
         portalMarker.setDetail(DescriptionBuilder.createDescription(portal));
         portalMarker.addStyleClasses("portal-marker");
 

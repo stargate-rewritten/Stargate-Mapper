@@ -10,19 +10,18 @@ public enum Icon {
     UNDERWATER_PORTAL_CLOSED("/icons/underwater_off.png");
 
 
-
     private final String fileName;
 
-    Icon(String fileName){
+    Icon(String fileName) {
         this.fileName = fileName;
     }
 
-    public String getFileName(){
+    public String getFileName() {
         return this.fileName;
     }
 
-    public static Icon fromPortal(RealPortal portal){
-        if(portal.isOpen()){
+    public static Icon fromPortal(RealPortal portal) {
+        if (portal.isOpen()) {
             return portal.getGate().getFormat().getIrisMaterial(false).isAir() ? Icon.NETHER_PORTAL_OPEN : Icon.UNDERWATER_PORTAL_OPEN;
         } else {
             return portal.getGate().getFormat().getIrisMaterial(false).isAir() ? Icon.NETHER_PORTAL_CLOSED : Icon.UNDERWATER_PORTAL_CLOSED;
