@@ -23,6 +23,11 @@ Not yet available.
 
 
 # Changes
+#### [Version 1.1.2]
+
+- BlueMap support
+- Bug fixes related to updates in stargate core behavior
+
 #### [Version 1.1.1]
 
 - Changed package name.
