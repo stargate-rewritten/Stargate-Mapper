@@ -1,10 +1,9 @@
 package org.sgrewritten.stargatemapper.hook;
 
 import de.bluecolored.bluemap.api.BlueMapAPI;
-import de.bluecolored.bluemap.api.BlueMapMap;
-import de.bluecolored.bluemap.api.BlueMapWorld;
 import de.bluecolored.bluemap.api.markers.MarkerSet;
 import de.bluecolored.bluemap.api.markers.POIMarker;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.sgrewritten.stargate.api.network.portal.Portal;
@@ -15,27 +14,38 @@ import org.sgrewritten.stargatemapper.Icon;
 
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BluemapHook implements MapperHook {
 
     private final Logger logger;
-    private final MarkerSet markerSet;
+    private final Map<String, MarkerSet> markerSets = new HashMap<>();
+    private static final Pattern WORLD_RE = Pattern.compile("^(.*)#");
     private POIMarker portalMarker;
-    private final BlueMapAPI api = BlueMapAPI.getInstance().get();
-    private final Collection<BlueMapWorld> worlds = api.getWorlds();
 
     public BluemapHook(Logger logger) {
         this.logger = logger;
-        markerSet = MarkerSet.builder()
-                .label("Stargate")
-                .build();
-
-        for (BlueMapWorld world : worlds) {
-            for (BlueMapMap map : world.getMaps()) {
-                map.getMarkerSets().put("Stargate", markerSet);
-            }
+        for (World world : Bukkit.getWorlds()) {
+            markerSets.put(world.getName(), MarkerSet.builder()
+                    .label("Stargate")
+                    .build());
         }
+
+        BlueMapAPI.onEnable(blueMapAPI -> {
+            blueMapAPI.getWorlds().forEach(blueMapWorld -> {
+                Matcher matcher = WORLD_RE.matcher(blueMapWorld.getId());
+                if (!matcher.find()) {
+                    logger.warning("Wrong world id: " + blueMapWorld.getId());
+                    return;
+                }
+                MarkerSet markerSet = markerSets.get(matcher.group(1));
+                blueMapWorld.getMaps().forEach(map -> map.getMarkerSets().put("stargate", markerSet));
+            });
+        });
     }
 
     @Override
@@ -43,7 +53,7 @@ public class BluemapHook implements MapperHook {
         if (portal.hasFlag(PortalFlag.HIDDEN)) {
             return;
         }
-
+        logger.warning("Ping 1");
         Location location = portal.getExit();
         World world = portal.getExit().getWorld();
         if (world == null) {
@@ -57,7 +67,7 @@ public class BluemapHook implements MapperHook {
         portalMarker.setIcon(Icon.fromPortal(portal).name(), 10, 10);
         portalMarker.setDetail(DescriptionBuilder.createDescription(portal));
 
-        markerSet.getMarkers().put(portal.getGlobalId().toString(), portalMarker);
+        markerSets.get(world.getName()).getMarkers().put(portal.getGlobalId().toString(), portalMarker);
     }
 
     @Override
@@ -71,7 +81,7 @@ public class BluemapHook implements MapperHook {
 
     @Override
     public void removePortalMarker(RealPortal portal) {
-        markerSet.remove(portal.getGlobalId().toString());
+        markerSets.get(portal.getExit().getWorld().getName()).remove(portal.getGlobalId().toString());
     }
 
     @Override
