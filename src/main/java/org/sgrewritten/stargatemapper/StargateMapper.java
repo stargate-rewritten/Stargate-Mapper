@@ -1,42 +1,34 @@
 package org.sgrewritten.stargatemapper;
 
-import org.sgrewritten.stargatemapper.hook.DynmapHook;
-import org.sgrewritten.stargatemapper.hook.MapperHook;
-import org.sgrewritten.stargatemapper.hook.Pl3xmapHook;
-import org.sgrewritten.stargatemapper.hook.SquaremapHook;
-import org.bukkit.plugin.PluginManager;
-import org.sgrewritten.stargate.api.StargateAPI;
-import org.sgrewritten.stargate.api.network.Network;
-import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.sgrewritten.stargate.api.StargateAPI;
+import org.sgrewritten.stargate.api.network.Network;
+import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.network.StorageType;
+import org.sgrewritten.stargatemapper.hook.*;
+import org.sgrewritten.stargatemapper.listener.StargateListener;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
  * Feel free to change the package name and project license.
  */
-public final class StargateMapper extends JavaPlugin implements Listener {
+public final class StargateMapper extends JavaPlugin {
 
     StargateAPI stargateAPI;
     List<MapperHook> mapperHooks;
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-        Bukkit.getPluginManager().registerEvents(this, this);
 
         //Get the Stargate API
         ServicesManager servicesManager = this.getServer().getServicesManager();
@@ -49,16 +41,20 @@ public final class StargateMapper extends JavaPlugin implements Listener {
         }
         mapperHooks = getMappers();
         registerIcons();
-        addAllPortalMarkers();
+        this.addAllPortalMarkers();
+        // Plugin startup logic
+        Bukkit.getPluginManager().registerEvents(new StargateListener(mapperHooks), this);
     }
 
     private void registerIcons() {
-        for(Icon icon : Icon.values()){
-            try(InputStream inputStream = StargateMapper.class.getResourceAsStream(icon.getFileName())) {
-                BufferedImage image = ImageIO.read(Objects.requireNonNull(inputStream));
+        for (Icon icon : Icon.values()) {
+            try (InputStream inputStream = StargateMapper.class.getResourceAsStream(icon.getFileName())) {
                 String type = icon.getFileName().split("\\.")[1].toLowerCase();
-                String title = "Stargate " + icon.name().toLowerCase().replaceAll("_"," ");
-                mapperHooks.forEach((mapperHook -> mapperHook.registerIcon(image,icon.name(),type,title)));
+                String title = "Stargate " + icon.name().toLowerCase().replaceAll("_", " ");
+                byte[] bytes = inputStream.readAllBytes();
+                for (MapperHook mapperHook : mapperHooks) {
+                    mapperHook.registerIcon(new ByteArrayInputStream(bytes), icon, type, title);
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -68,17 +64,20 @@ public final class StargateMapper extends JavaPlugin implements Listener {
     private List<MapperHook> getMappers() {
         List<MapperHook> mapperHooks = new ArrayList<>();
         PluginManager pluginManager = this.getServer().getPluginManager();
-        if(pluginManager.isPluginEnabled("dynmap")){
+        if (pluginManager.isPluginEnabled("dynmap")) {
             mapperHooks.add(new DynmapHook(pluginManager, this.getLogger()));
         }
-        if(pluginManager.isPluginEnabled("pl3xmap")){
+        if (pluginManager.isPluginEnabled("pl3xmap")) {
             mapperHooks.add(new Pl3xmapHook(pluginManager));
         }
-        if(pluginManager.isPluginEnabled("squaremap")){
+        if (pluginManager.isPluginEnabled("squaremap")) {
             mapperHooks.add(new SquaremapHook(pluginManager));
         }
-        if(mapperHooks.isEmpty()){
-            throw new IllegalStateException("No supported map interface found, expected any of [dynmap, pl3xmap, squaremap].");
+        if (pluginManager.isPluginEnabled("BlueMap")) {
+            mapperHooks.add(new BluemapHook(this.getLogger(), this));
+        }
+        if (mapperHooks.isEmpty()) {
+            throw new IllegalStateException("No supported map interface found, expected any of [dynmap, pl3xmap, squaremap, bluemap].");
         }
         return mapperHooks;
     }
@@ -86,7 +85,7 @@ public final class StargateMapper extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        for(MapperHook mapperHook : this.mapperHooks) {
+        for (MapperHook mapperHook : this.mapperHooks) {
             mapperHook.deleteMarkerSet();
         }
     }
@@ -96,15 +95,13 @@ public final class StargateMapper extends JavaPlugin implements Listener {
      *
      * @return <p>All portals registered to Stargate</p>
      */
-    private List<Portal> getAllPortals() {
+    public List<Portal> getAllPortals() {
         List<Portal> portals = new ArrayList<>();
         Stream<Network> localNetworkStream = stargateAPI.getRegistry().getNetworkRegistry(StorageType.LOCAL).stream();
         Stream<Network> interserverNetworkStream = stargateAPI.getRegistry().getNetworkRegistry(StorageType.INTER_SERVER).stream();
-        Iterator<Network> allNetworks = Stream.concat(localNetworkStream,interserverNetworkStream).iterator();
-        while(allNetworks.hasNext()){
-            Network network = allNetworks.next();
-            portals.addAll(network.getAllPortals());
-        }
+        Stream.concat(localNetworkStream, interserverNetworkStream)
+                .map(Network::getAllPortals)
+                .forEach(portals::addAll);
         return portals;
     }
 
@@ -113,10 +110,9 @@ public final class StargateMapper extends JavaPlugin implements Listener {
      */
     private void addAllPortalMarkers() {
         List<Portal> portals = getAllPortals();
-        for(MapperHook mapperHook : this.mapperHooks){
+        for (MapperHook mapperHook : this.mapperHooks) {
             mapperHook.addPortalMarkers(portals);
         }
     }
-
 
 }

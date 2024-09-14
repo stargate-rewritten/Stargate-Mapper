@@ -7,7 +7,7 @@
     <groupId>org.sgrewritten</groupId>
     <artifactId>stargatemapper</artifactId>
     <name>Stargate Mapper</name>
-    <version>1.1.1-BETA</version>
+    <version>1.1.2-BETA</version>
     <url>https://sgrewritten.org/addons</url>
     <packaging>jar</packaging>
     <organization>
@@ -27,7 +27,7 @@
 
     <description>Stargate Mapper, an integration between stargate and mapping plugins</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -42,22 +42,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <resources>
@@ -85,6 +69,10 @@
             <id>modrinth-repo</id>
             <url>https://api.modrinth.com/maven/</url>
         </repository>
+        <repository>
+            <id>bluecolored</id>
+            <url>https://repo.bluecolored.de/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -104,6 +92,12 @@
             <groupId>org.sgrewritten</groupId>
             <artifactId>stargate</artifactId>
             <version>1.0.0.16-NIGHTLY</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.bluecolored.bluemap</groupId>
+            <artifactId>BlueMapAPI</artifactId>
+            <version>2.7.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

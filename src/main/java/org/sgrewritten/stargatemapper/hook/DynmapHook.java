@@ -1,8 +1,5 @@
 package org.sgrewritten.stargatemapper.hook;
 
-import org.sgrewritten.stargatemapper.DescriptionBuilder;
-import org.sgrewritten.stargatemapper.Icon;
-import org.sgrewritten.stargatemapper.Id;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
@@ -14,12 +11,10 @@ import org.dynmap.markers.MarkerSet;
 import org.sgrewritten.stargate.api.network.portal.Portal;
 import org.sgrewritten.stargate.api.network.portal.RealPortal;
 import org.sgrewritten.stargate.api.network.portal.flag.PortalFlag;
+import org.sgrewritten.stargatemapper.DescriptionBuilder;
+import org.sgrewritten.stargatemapper.Icon;
+import org.sgrewritten.stargatemapper.Id;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -91,15 +86,8 @@ public class DynmapHook implements MapperHook {
     }
 
     @Override
-    public void registerIcon(BufferedImage image, String key, String type, String title) {
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            ImageIO.write(image, type, outputStream);
-            try (InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray())) {
-                dynmapAPI.getMarkerAPI().createMarkerIcon(key, title, inputStream);
-            }
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Could not register marker icon for dynmap");
-        }
+    public void registerIcon(InputStream image, Icon key, String type, String title) {
+        dynmapAPI.getMarkerAPI().createMarkerIcon(key.name(), title, image);
     }
 
 }
